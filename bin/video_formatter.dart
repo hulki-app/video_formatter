@@ -30,9 +30,11 @@ Future<void> main() async {
   stdout.writeln('Formatting videos:');
 
   final files = resourcesDirectory.listSync();
+  final quantity = files.length;
+
   for (final file in files) {
-    stdout.writeln('Processing video ${basename(file.path)}...');
-    stdout.writeln('Command: ffmpeg -i ${file.path} -preset veryslow -vf scale=720:-1,setsar=1:1 -crf 18 -r 30 -an ${outputDirectory.path}/${basenameWithoutExtension(file.path)}.mp4');
+    stdout.writeln('[${files.indexOf(file) + 1}/$quantity] Processing video ${basename(file.path)}...');
+    stdout.writeln('Command: ffmpeg -i ${file.path} -preset veryslow -vf scale=720:-1,setsar=1:1 -crf 18 -r 30 -an ${outputDirectory.path}${basenameWithoutExtension(file.path)}.mp4');
     stdout.writeln();
 
     await Process.run(
@@ -59,7 +61,6 @@ Future<void> main() async {
 
   stopwatch.stop();
 
-  final quantity = files.length;
   final timeSpent = stopwatch.elapsed.inSeconds;
   stdout.writeln('Videos formatted successfully! ($quantity video${quantity == 1 ? '' : 's'})"');
   stdout.writeln('Time spent: $timeSpent seconds. Mean: an average of ${timeSpent / files.length} seconds per video.');

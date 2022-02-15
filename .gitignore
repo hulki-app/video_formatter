@@ -21,6 +21,7 @@ pubspec.lock
 .flutter-plugins-dependencies
 
 # Ignore generate files
+/res
 /output
 
 # macOS specific
