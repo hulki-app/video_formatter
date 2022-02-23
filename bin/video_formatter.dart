@@ -34,7 +34,7 @@ Future<void> main() async {
 
   for (final file in files) {
     stdout.writeln('[${files.indexOf(file) + 1}/$quantity] Processing video ${basename(file.path)}...');
-    stdout.writeln('Command: ffmpeg -i ${file.path} -preset veryslow -vf scale=720:-1,setsar=1:1 -crf 18 -r 30 -an ${outputDirectory.path}${basenameWithoutExtension(file.path)}.mp4');
+    stdout.writeln('Command: ffmpeg -i ${file.path} -preset veryslow  -movflags faststart -vf scale=720:-1,setsar=1:1 -crf 18 -r 30 -an ${outputDirectory.path}${basenameWithoutExtension(file.path)}.mp4');
     stdout.writeln();
 
     await Process.run(
@@ -44,6 +44,8 @@ Future<void> main() async {
         file.path,
         '-preset', // Prefers to wait a little bit in order to compress as much as possible.
         'veryslow',
+        '-movflags', // Sets a moov atom to the start of the video, being possible to start watching without load the whole file, as a streaming.
+        'faststart',
         '-vf', // Sets a simple video filter, re-sizing but keeping the original aspect ratio.
         'scale=720:-1,setsar=1:1',
         '-crf', // Sets a constant rate factor, which can be set as 0-51, being 18 a reasonable factor.
