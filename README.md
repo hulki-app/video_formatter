@@ -1,3 +1,3 @@
 # Video Formatter
 
-A video formatter to format workout takes in the expected format by the Hulki's applications.
+A video tooling to format workout takes in the format expected by our training applications.
